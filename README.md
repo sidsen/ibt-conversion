@@ -24,7 +24,7 @@ There are parameters able to be passed to the script to change functionality.
 |---|---|
 | `npm run csv -- --params=Speed,Throttle` | Will generate a CSV with only Speed and Throttle columns |
 | `npm run csv -- --params=Speed,Throttle --logSample=true` | Will generate a CSV the same as above but will also output a single sample |
-| `npm run csv -- --params=Speed,Throttle --pathToIbt='my_path/my_file.ibt` | Will read the IBT file from the provided path and generate a CSV the same as above written to 'my_path/my_file.csv' |
+| `npm run csv -- --params=Speed,Throttle --pathToIbt='my_path/my_file.ibt'` | Will read the IBT file from the provided path and generate a CSV the same as above written to 'my_path/my_file.csv' |
 | `npm run csv -- --logSample=true` | Will generate a CSV with the default fields (see `index.js`) and also output a single sample |
 
 Note: all the double hyphens above are necessary 
