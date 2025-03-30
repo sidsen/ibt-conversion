@@ -3,7 +3,9 @@ require('regenerator-runtime/runtime')
 const telemetryLib = require('ibt-telemetry')
 const fs = require('fs')
 
-const pathToIbt = './telemetry_file.ibt'
+// Default paths to input IBT and output CSV files (following upstream repo)
+let pathToIbt = './telemetry_file.ibt'
+let outputPath = './output.csv'
 let logSample = false
 let params = []
 
@@ -11,6 +13,11 @@ var argv = require('minimist')(process.argv.slice(2))
 
 if (argv.params && argv.params !== '') {
     params = argv.params.split(',')
+}
+if (argv.pathToIbt && argv.pathToIbt !== '') {
+    pathToIbt = argv.pathToIbt
+    // If an input path is provided, reuse the filename for the output path
+    outputPath = pathToIbt.replace('.ibt', '.csv')
 }
 if (argv.logSample && argv.logSample !== '') {
     logSample = argv.logSample
@@ -45,7 +52,7 @@ const telemetry = telemetryLib.Telemetry.fromFile(pathToIbt).then((promisedData)
         csvString += current.toString() + "\n"
         index++
     }
-    fs.writeFile('./output.csv', csvString, err => {
+    fs.writeFile(outputPath, csvString, err => {
         if (err) {
             console.error(err)
             return
