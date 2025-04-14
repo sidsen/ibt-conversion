@@ -7,7 +7,9 @@ const fs = require('fs')
 let pathToIbt = './telemetry_file.ibt'
 let outputPath = './output.csv'
 let logSample = false
+let logSessionInfo = false
 let params = []
+const commentPrefix = "# "
 
 var argv = require('minimist')(process.argv.slice(2))
 
@@ -18,6 +20,9 @@ if (argv.pathToIbt && argv.pathToIbt !== '') {
     pathToIbt = argv.pathToIbt
     // If an input path is provided, reuse the filename for the output path
     outputPath = pathToIbt.replace('.ibt', '.csv')
+}
+if (argv.logSessionInfo && argv.logSessionInfo !== '') {
+    logSessionInfo = argv.logSessionInfo
 }
 if (argv.logSample && argv.logSample !== '') {
     logSample = argv.logSample
@@ -32,8 +37,19 @@ if (params.length === 0) {
 console.log('Generating CSV using the following params:')
 console.log(params)
 
-let csvString = params.toString() + "\n";
+let csvString = "";
 const telemetry = telemetryLib.Telemetry.fromFile(pathToIbt).then((promisedData) => {
+    // If requested, include the session information as a comment at the top of 
+    // the CSV file
+    if (logSessionInfo) {
+        // Write the session information as a comment at the top of the CSV file
+        // Print the session information
+        csvString += JSON.stringify(promisedData.sessionInfo).replace(/^/gm, commentPrefix);
+        csvString += "\n";
+    }
+
+    // Write the column headers
+    csvString += params.toString() + "\n";
     let index = 0
     for (sample of promisedData.samples()) {
         if (logSample && index == 1) {
@@ -57,7 +73,7 @@ const telemetry = telemetryLib.Telemetry.fromFile(pathToIbt).then((promisedData)
             console.error(err)
             return
         }
-        //file written successfully
+        //  File written successfully
      })
      console.log('CSV successfully created.')
 })

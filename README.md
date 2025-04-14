@@ -16,6 +16,7 @@ There are parameters able to be passed to the script to change functionality.
 |---|---|
 | params | Should be passed in as a comma-delimited value. Determines which columns are pulled from the IBT file. e.g. Speed,Throttle |
 | pathToIbt | Path to the input IBT file (must have extension 'ibt') 
+| logSessionInfo | Includes the session string in the output (as a comment). Pass a boolean value - true/false 
 | logSample | Used to output a single sample as reference for the currently available fields. Pass a boolean value - true/false |
 
 ###Example parameterized usages
@@ -24,7 +25,7 @@ There are parameters able to be passed to the script to change functionality.
 |---|---|
 | `npm run csv -- --params=Speed,Throttle` | Will generate a CSV with only Speed and Throttle columns |
 | `npm run csv -- --params=Speed,Throttle --logSample=true` | Will generate a CSV the same as above but will also output a single sample |
-| `npm run csv -- --params=Speed,Throttle --pathToIbt='my_path/my_file.ibt'` | Will read the IBT file from the provided path and generate a CSV the same as above written to 'my_path/my_file.csv' |
+| `npm run csv -- --params=Speed,Throttle --logSessionInfo --pathToIbt='my_path/my_file.ibt'` | Will read the IBT file from the provided path and generate a CSV the same as above with session information at the top of the file, written to 'my_path/my_file.csv'  |
 | `npm run csv -- --logSample=true` | Will generate a CSV with the default fields (see `index.js`) and also output a single sample |
 
 Note: all the double hyphens above are necessary 
